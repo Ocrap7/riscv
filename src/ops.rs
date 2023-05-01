@@ -32,17 +32,10 @@ op! {
     BLT, Branch, f3:0b100;
     BGE, Branch, f3:0b101;
     BLTU, Branch, f3:0b110;
-    BGUE, Branch, f3:0b111;
+    BGEU, Branch, f3:0b111;
 
-    LB, Load, f3:0b000;
-    LH, Load, f3:0b001;
-    LW, Load, f3:0b010;
-    LBU, Load, f3:0b100;
-    LHU, Load, f3:0b101;
-
-    SB, Store, f3:0b000;
-    SH, Store, f3:0b000;
-    SW, Store, f3:0b000;
+    LOAD, Load;
+    STORE, Store; 
 
     ADDI, OpImm, f3:0b000;
     SLTI, OpImm, f3:0b010;
@@ -52,8 +45,8 @@ op! {
     ANDI, OpImm, f3:0b111;
 
     SLLI, OpImm, f3:0b001, f7:0b0000000;
-    SRLI, OpImm, f3:0b101, f7:0b0000000;
-    SRAI, OpImm, f3:0b101, f7:0b0100000;
+    SRI, OpImm, f3:0b101;
+    // SRAI, OpImm, f3:0b101, f7:0b0100000;
     ADD, OpImm, f3:0b000, f7:0b0000000;
     SUB, OpImm, f3:0b000, f7:0b0100000;
     SLL, OpImm, f3:0b001, f7:0b0000000;
@@ -68,13 +61,6 @@ op! {
     FENCE, MiscMem, f3:0b000, f7:0b0000000;
     ECALL, System, f3:0b000, f7:0b0000000;
     EBREAK, System, f3:0b000, f7:0b0100000;
-
-
-    /* RV64I Base Instruction Set */
-    LWU, Load, f3:0b110;
-    LD, Load, f3:0b011;
-
-    SD, Store, f3:0b011;
 
     ADDIW, OpImm32, f3:0b000;
     SLLIW, OpImm32, f3:0b001, f7:0b0000000;
