@@ -252,7 +252,7 @@ impl<'a, T: CPUBitSize> CPU<'a, T> {
     pub fn continute(&mut self) {
         while self.run.load(std::sync::atomic::Ordering::SeqCst) {
             self.step();
-            println!("CPU:\n{:?}\n", self);
+            // println!("CPU:\n{:?}\n", self);
         }
     }
 
@@ -265,7 +265,7 @@ impl<'a, T: CPUBitSize> CPU<'a, T> {
         let inst = self.current_instruction();
 
         let ty = inst.opcode().get_type().unwrap();
-        println!("{:x?}  --  {:?}", inst.opcode(), ty);
+        // println!("{:x?}  --  {:?}", inst.opcode(), ty);
 
         let _: Option<()> = try {
             match ty {
@@ -346,19 +346,11 @@ impl<'a, T: CPUBitSize> CPU<'a, T> {
                 InstructionType::I => {
                     match inst.opcode() {
                         Opcode::Load => {
-                            println!(
-                                "{:x} {:x} {:x}",
-                                self.get_register(inst.source1()),
-                                inst.immediate::<T>().unwrap(),
-                                self.get_register(inst.source1())
-                                    .add_overflow(inst.immediate::<T>().unwrap())
-                            );
                             let addr = self
                                 .get_register(inst.source1())
                                 .add_overflow(inst.immediate().unwrap());
 
                             let value = self.get_memory(addr.as_idx(), inst.width());
-                            println!("{} {:x}", inst.destination(), value);
                             self.set_register(inst.destination(), value);
 
                             None?

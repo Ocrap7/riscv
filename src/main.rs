@@ -11,7 +11,7 @@ const DEFAULT_SIZE: usize = 1024 * 1024;
 const STACK_SIZE: usize = 1024 * 1024;
 
 fn main() {
-    let path = std::path::PathBuf::from("main");
+    let path = std::path::PathBuf::from("test_files/main");
     let file_data = std::fs::read(path).expect("Could not read file.");
     let slice = file_data.as_slice();
     let file = elf::ElfBytes::<elf::endian::AnyEndian>::minimal_parse(slice).expect("Open test1");
@@ -28,7 +28,7 @@ fn main() {
             }
         });
 
-    println!("{:x}", file.ehdr.e_entry);
+    println!("Entry: {:x}", file.ehdr.e_entry);
 
     let (memory_size, sp) = {
         let mut size = DEFAULT_SIZE;
@@ -43,7 +43,7 @@ fn main() {
         (size, sp)
     };
 
-    println!("{:x} {:x}", memory_size, sp);
+    println!("Memory Size: {:x}b, Stack Pointer: {:x}", memory_size, sp);
 
     let mut memory = vec![0u8; memory_size];
 
@@ -60,4 +60,5 @@ fn main() {
         &[(regs::sp, sp as u32), (regs::pc, file.ehdr.e_entry as u32)],
     );
     cpu.continute();
+    println!("{:?}", cpu);
 }
